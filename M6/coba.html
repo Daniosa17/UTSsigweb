@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rute Tercepat ke Teknik Geodesi UGM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+    <style>
+      body {
+        background: linear-gradient(to right, black, red);
+        color: white;
+      }
+
+      /* Styling Map */
+      #map {
+        width: 100%;
+        height: 500px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(255, 0, 0, 0.6);
+      }
+
+      /* Styling panel petunjuk arah */
+      .leaflet-routing-container {
+        background: rgba(255, 255, 255, 0.9);
+        color: black;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        padding: 5px;
+        max-width: 350px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .leaflet-routing-alt tr:hover {
+        background-color: #ddd;
+        /* -webkit-background-clip: text;  */
+        /* -webkit-text-fill-color: transparent; */
+        /* transition: all 0.3s ease-in-out; */
+}
+
+    </style>
+  </head>
+  <body class="text-gray-100">
+    <div class="container mx-auto px-4 py-6">
+      <h1 class="text-3xl font-bold text-center mb-4 text-white">
+        Rute dari Rumah ke Teknik Geodesi UGM
+      </h1>
+
+      <div class="bg-gray-900 shadow-xl rounded-lg p-4">
+        <!-- Peta -->
+        <div id="map"></div>
+
+        <!-- Tombol Reset Rute -->
+        <div class="text-center mt-4">
+          <button
+            id="resetRoute"
+            class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition font-bold"
+          >
+            Reset Rute
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Inisialisasi Peta
+      var map = L.map("map", { center: [-7.79558, 110.36949], zoom: 13 });
+
+      // Basemap
+      var baseLayers = {
+        OpenStreetMap: L.tileLayer(
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          { attribution: "&copy; OpenStreetMap" }
+        ),
+        "Google Satellite": L.tileLayer(
+          "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+          { attribution: "&copy; Google" }
+        ),
+        "Google Hybrid": L.tileLayer(
+          "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+          { attribution: "&copy; Google" }
+        ),
+        "Google Terrain": L.tileLayer(
+          "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+          { attribution: "&copy; Google" }
+        ),
+      };
+
+      // Tambahkan basemap awal (OSM)
+      baseLayers["OpenStreetMap"].addTo(map);
+
+      // Layer Control untuk memilih basemap
+      L.control.layers(baseLayers).addTo(map);
+
+      // Titik awal dan tujuan
+      var startCoords = [-7.817804, 110.373711]; // Mergangsan
+      var endCoords = [-7.7639748, 110.3726946]; // Teknik Geodesi UGM
+
+      // Tambahkan marker untuk titik awal dan tujuan
+      L.marker(startCoords).addTo(map).bindPopup("Mergangsan").openPopup();
+      L.marker(endCoords).addTo(map).bindPopup("Teknik Geodesi UGM");
+
+      // Buat Routing Control
+      var routeControl = L.Routing.control({
+        waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
+        routeWhileDragging: false,
+        createMarker: function () {
+          return null;
+        }, // Hilangkan marker default
+        lineOptions: { styles: [{ color: "red", weight: 5 }] },
+      }).addTo(map);
+
+      // Reset Rute
+      document
+        .getElementById("resetRoute")
+        .addEventListener("click", function () {
+          map.setView([-7.79558, 110.36949], 13);
+          routeControl.setWaypoints([
+            L.latLng(startCoords),
+            L.latLng(endCoords),
+          ]);
+        });
+    </script>
+  </body>
+</html>

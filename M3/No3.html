@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validasi Nama dan Umur</title>
+</head>
+<body>
+    <h2>Validasi Umur Pengguna</h2>
+    <form onsubmit="return validasiInput()">
+        Nama: <input type="text" id="nama"><br>
+        Umur: <input type="number" id="umur"><br>
+        <button type="submit">Klik</button>
+    </form>
+    <p id="hasil"></p>
+
+    <script>
+        function validasiInput() {
+            let nama = document.getElementById("nama").value;
+            let umur = parseInt(document.getElementById("umur").value);
+            let hasil = document.getElementById("hasil");
+
+            // Cek apakah nama kosong
+            if (nama.trim() === "") {
+                alert("Isikan nama!!");
+                return false; 
+            }
+
+            // Cek kategori umur
+            if (umur <= 0) {
+                hasil.innerText = "Anda Game Over";
+            } else if (umur < 5) {
+                hasil.innerText = "Anda masih bayi";
+            } else if (umur >= 6 && umur <= 15) {
+                hasil.innerText = "Anda masih anak-anak";
+            } else if (umur >= 16 && umur <= 30) {
+                hasil.innerText = "Anda masih remaja";
+            } else if (umur >= 31 && umur <= 60) {
+                hasil.innerText = "Anda sudah dewasa";
+            } else {
+                hasil.innerText = "Anda sudah lanjut usia";
+            }
+
+            return false;
+        }
+    </script>
+</body>
+</html>

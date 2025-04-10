@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h2>Cari Bilangan Fibonacci</h2>
+        <p>Masukkan sebuah angka :</p>
+        <input type="number" id="input">
+        <button onclick="cariBilanganFibonacci()">Klik</button>
+        <p id="hasil"></p>
+
+        <script>
+            function Fibonacci(n) {
+                let fibo = [0, 1];
+                for (let i = 2; i <= n; i++) {
+                    fibo.push(fibo[i - 1] + fibo[i - 2]);
+                }
+                return fibo;
+            }
+
+            function cariBilanganFibonacci() {
+                let angka = parseInt(document.getElementById("input").value);
+                let hasil = document.getElementById("hasil");
+
+                if (isNaN(angka) || angka < 1) {
+                    hasil.innerText = "Masukkkan angka yang valid!";
+                    return;
+                }
+
+                let fibonacciList = Fibonacci(angka);
+                hasil.innerText = `Bilangan Fibonacci dari 1 sampai ${angka}: ${fibonacciList.join(', ')}`;
+
+            }
+        </script>
+    </body>
+</html>

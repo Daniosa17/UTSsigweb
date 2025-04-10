@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Cari Bilangan Prima</h2>
+    <p>Masukkan sebuah angka :</p>
+    <input type="number" id="input">
+    <button onclick="cariBilanganPrima()">Klik</button>
+    <p id="hasil"></p>
+
+    <script>
+        function cari(n) {
+            if (n < 2) return false;
+            for (let i = 2; i < n; i++) {
+                if (n % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function cariBilanganPrima() {
+            let angka = parseInt(document.getElementById("input").value);
+            let hasil = document.getElementById("hasil");
+
+            if (isNaN(angka) || angka < 1) {
+                hasil.innerText = "Masukkan angka yang valid!";
+                return;
+            }
+
+            let primaList = [];
+            for (let i = 1; i <= angka; i++) {
+                if(cari(i)) {
+                    primaList.push(i);
+                }
+            }
+
+            hasil.innerText = `Angka prima dari 1 sampai ${angka} : ${primaList.join(', ')}`;
+        }
+    </script>
+</body>
+</html>
